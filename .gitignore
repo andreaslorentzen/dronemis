@@ -2,3 +2,5 @@
 /nbproject/
 /build.xml
 /manifest.mf
+/.idea
+/dronemis.iml
