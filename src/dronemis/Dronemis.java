@@ -5,6 +5,11 @@
  */
 package dronemis;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 /**
  *
  * @author AL
@@ -14,8 +19,15 @@ public class Dronemis {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException {
+        GUI gui = new GUI();
+        BufferedImage image = ImageIO.read(new File("test.jpg"));
+        for (Listeners.UpdateImageListener listener : Listeners.getInstance().getUpdateFrontImageListener()){
+            listener.updateImage(image);
+        }
+        for (Listeners.UpdateImageListener listener : Listeners.getInstance().getUpdateBottomImageListener()){
+            listener.updateImage(image);
+        }
     }
     
 }
