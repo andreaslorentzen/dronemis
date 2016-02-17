@@ -1,4 +1,4 @@
-package dronemis;
+package dronemis.GUI;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;

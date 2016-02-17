@@ -1,4 +1,4 @@
-package dronemis;
+package dronemis.GUI;
 
 import de.yadrone.base.IARDrone;
 import de.yadrone.base.command.CommandManager;

@@ -1,4 +1,4 @@
-package dronemis;
+package dronemis.GUI;
 
 import javax.swing.*;
 import java.awt.*;

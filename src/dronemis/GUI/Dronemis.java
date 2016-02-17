@@ -1,5 +1,5 @@
 
-package dronemis;
+package dronemis.GUI;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
