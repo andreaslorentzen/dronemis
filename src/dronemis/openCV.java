@@ -9,7 +9,7 @@ import org.opencv.core.Mat;
  *
  * @author AL
  */
-public class Dronemis {
+public class openCV {
 
     /**
      * @param args the command line arguments
@@ -21,5 +21,5 @@ public class Dronemis {
         Mat mat = Mat.eye( 3, 3, CvType.CV_8UC1 );
         System.out.println( "mat = " + mat.dump() );
     }
-    
+
 }

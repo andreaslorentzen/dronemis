@@ -12,7 +12,7 @@ public class GUI extends JFrame {
     private JLabel bottomImage;
 
     public GUI() {
-        super("Dronemis Control Center");
+        super("openCV Control Center");
 
         setContentPane(rootPanel);
         pack();
