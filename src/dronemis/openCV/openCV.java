@@ -1,33 +1,38 @@
-
 package dronemis.openCV;
 
-import org.opencv.core.Mat;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 
 public class openCV {
 
 
-    public static void main(String[] args) throws Exception {
+    public openCV (){
 
-        final String filePath = "C:\\Users\\hippomormor\\Desktop\\image.jpg";
+        final String cwd = System.getProperty("user.dir");
 
         initLib();
 
-        Mat testImage = Imgcodecs.imread(filePath);
+        CascadeClassifier faceDetector = new CascadeClassifier(cwd + "/src/dronemis/openCV/haarcascade_frontalface_alt.xml");
+        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/image.JPG");
+        MatOfRect faceDetections = new MatOfRect();
+        faceDetector.detectMultiScale(image, faceDetections);
 
-        filter(testImage);
+        System.out.println("Detected faces: " + faceDetections.toArray().length);
 
-        if(testImage.dataAddr() == 0)
-            System.err.println("Couldn't open file " + filePath);
-        else{
-            ImageViewer imageViewer = new ImageViewer();
-            imageViewer.show(testImage, "Test image");
+        for (Rect rect : faceDetections.toArray()) {
+            Imgproc.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
+                    new Scalar(0, 0, 0));
         }
 
+        String filename = "filtered.png";
+        System.out.println("Writing output to: " + filename);
+        Imgcodecs.imwrite(filename, image);
     }
 
 
-    private static boolean initLib() {
+    private boolean initLib() {
 
         final String OS = System.getProperty("os.name").toLowerCase();
         final String bitness = System.getProperty("sun.arch.data.model");
@@ -48,15 +53,5 @@ public class openCV {
 
         System.load(cwd);
         return true;
-    }
-
-    public static void filter(Mat image){
-        int totalBytes = (int)(image.total() * image.elemSize());
-        byte buffer[] = new byte[totalBytes];
-        image.get(0, 0,buffer);
-        for(int i=0;i<totalBytes;i++){
-            if(i%3==0) buffer[i]=0;
-        }
-        image.put(0, 0, buffer);
     }
 }
