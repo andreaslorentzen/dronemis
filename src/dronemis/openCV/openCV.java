@@ -17,9 +17,13 @@ public class openCV {
 
         initLib();
 
-        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/image.JPG");
-
+        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/shapes.JPG");
+        List<MatOfPoint> contours = new ArrayList<>();
         convertToEdges(image);
+        Mat hir = new Mat();
+       // Imgproc.findContours(image, contours, hir, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        //Imgproc.drawContours(image, contours,-1, new Scalar(255),-1);
 
         //compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_frontalface_alt.xml", image);
         ImageViewer iv = new ImageViewer();
@@ -63,12 +67,11 @@ public class openCV {
         Imgproc.cvtColor(img,img,Imgproc.COLOR_BGR2GRAY);
 
         // Add Gaussian noise:
-        Imgproc.GaussianBlur(img, img, new Size(3.0, 3.0), 7);
+        //Imgproc.GaussianBlur(img, img, new Size(3, 3), 0);
 
         // Paint edges:
-        Imgproc.Canny(img, img, 100, 100);
-       // List<MatOfPoint> mop = new ArrayList<>();
-
+        //Imgproc.Canny(img, img, 250, 0);
+        //Imgproc.threshold(img,img,100,255,Imgproc.THRESH_TRUNC);
 
         return img;
     }
