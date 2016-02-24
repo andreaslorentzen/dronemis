@@ -45,12 +45,12 @@ public class openCV {
 
         if (OS.contains("windows")){
             if (bitness.equals("64"))
-                cwd = cwd + "\\lib\\openCV\\java\\x64\\opencv_java310.dll";
+                cwd = cwd + "\\lib\\openCV\\x64\\opencv_java310.dll";
             else
-                cwd = cwd + "\\lib\\openCV\\java\\x86\\opencv_java310.dll";
+                cwd = cwd + "\\lib\\openCV\\x86\\opencv_java310.dll";
         }
         else if (OS.contains("mac"))
-            cwd = cwd + "/lib/openCV/java/Mac/libopencv_java310.so";
+            cwd = cwd + "/lib/openCV/Mac/libopencv_java310.so";
         else {
             System.err.println("Unable to determine OS!");
             return false;
