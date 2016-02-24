@@ -17,7 +17,7 @@ public class openCV {
 
         initLib();
 
-        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/shapes.JPG");
+        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/image.JPG");
         List<MatOfPoint> contours = new ArrayList<>();
         convertToEdges(image);
         Mat hir = new Mat();
@@ -50,7 +50,7 @@ public class openCV {
                 cwd = cwd + "\\lib\\openCV\\java\\x86\\opencv_java310.dll";
         }
         else if (OS.contains("mac"))
-            cwd = cwd + "/lib/openCV/java/mac/libopencv_java310.dylib";
+            cwd = cwd + "/lib/openCV/java/Mac/libopencv_java310.so";
         else {
             System.err.println("Unable to determine OS!");
             return false;
