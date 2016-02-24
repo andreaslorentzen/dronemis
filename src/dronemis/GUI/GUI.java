@@ -28,14 +28,14 @@ public class GUI extends JFrame {
 
         Listeners.getInstance().addUpdateFrontImageListener(image -> {
 
-            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
             frontImage.setIcon(tempImage);
 
         });
 
         Listeners.getInstance().addUpdateBottomImageListener(image -> {
 
-            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
             bottomImage.setIcon(tempImage);
 
         });
@@ -170,7 +170,7 @@ public class GUI extends JFrame {
 
     public JLabel createImageDisplayer(){
         JLabel button = new JLabel();
-        button.setPreferredSize(new Dimension(300, 300));
+        button.setPreferredSize(new Dimension(640, 360));
         return button;
     }
 }
