@@ -54,7 +54,7 @@ public class TutorialVideoListener extends JFrame {
 
     public synchronized void paint(Graphics g) {
         if (image != null) {
-            g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         }
     }
 }
