@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 public class Keyboard implements KeyListener {
 
     private int KEY_COUNT = 256;
-    private boolean[] keys = null;
+    public boolean[] keys = null;
 
     @Override
     public synchronized void keyTyped(KeyEvent e) {

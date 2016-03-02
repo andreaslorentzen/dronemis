@@ -8,6 +8,8 @@ import de.yadrone.base.command.VideoCodec;
 import de.yadrone.base.exception.ARDroneException;
 import de.yadrone.base.exception.IExceptionListener;
 import de.yadrone.base.video.ImageListener;
+
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class TutorialMain {
@@ -58,13 +60,14 @@ public class TutorialMain {
                 }
             });
 
+            /*
             if (Keyboard.keys[KeyEvent.VK_Q]) {
                 drone.getCommandManager().takeOff().doFor(1000);
             }
             if (Keyboard.keys[KeyEvent.VK_Q]) {
                 drone.getCommandManager().landing();
             }
-
+*/
             drone.getCommandManager().setVideoCodec(VideoCodec.H264_360P);
             drone.getCommandManager().setVideoBitrateControl(VideoBitRateMode.MANUAL);
             drone.getCommandManager().setMaxVideoBitrate(4000);
