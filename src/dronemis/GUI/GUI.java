@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by AL on 17-02-2016.
  */
-public class GUI extends JFrame {
+public class GUI {
 
     private JLabel bottomImage;
     private JLabel frontImage;
@@ -22,10 +22,12 @@ public class GUI extends JFrame {
     private JLabel headerLabel;
     private JLabel statusLabel;
     private JPanel controlPanel;
+    private Keyboard keyboard;
 
     public GUI() {
         prepareGUI();
-
+        keyboard = new Keyboard();
+        mainFrame.addKeyListener(keyboard);
         Listeners.getInstance().addUpdateFrontImageListener(image -> {
 
             ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
@@ -40,12 +42,16 @@ public class GUI extends JFrame {
 
         });
 
+        Listeners.getInstance().addUpdateBottomImageListener(image -> {
+            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
+            bottomImage.setIcon(tempImage);
+        });
+
     }
 
     public static void main(String[] args) throws IOException {
         GUI swingControlDemo = new GUI();
         //    swingControlDemo.showEventDemo();
-
 
         BufferedImage image = ImageIO.read(new File("test.jpg"));
         for (Listeners.UpdateImageListener listener : Listeners.getInstance().getUpdateFrontImageListener()) {
@@ -64,7 +70,6 @@ public class GUI extends JFrame {
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
 
-
                 System.exit(0);
             }
         });
@@ -79,11 +84,9 @@ public class GUI extends JFrame {
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
 
-
     public void addComponentsToPane(Container pane) {
 
         pane.setLayout(new GridBagLayout());
-
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -104,7 +107,6 @@ public class GUI extends JFrame {
         c.gridy = 0;
         pane.add(bottomImage, c);
 
-
         JLabel label = createImageDisplayer();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -115,6 +117,7 @@ public class GUI extends JFrame {
         JButton button;
 
         button = new JButton("Long-Named Button 4");
+        button.setFocusable(false);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 40; //make this component tall
         c.weightx = 0.0;
@@ -124,6 +127,7 @@ public class GUI extends JFrame {
         pane.add(button, c);
 
         button = new JButton("5");
+        button.setFocusable(false);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 0; //reset to default
         c.weighty = 1.0; //request any extra vertical space
@@ -156,6 +160,7 @@ public class GUI extends JFrame {
     }
 
     private class ButtonClickListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             if (command.equals("OK")) {
@@ -168,7 +173,7 @@ public class GUI extends JFrame {
         }
     }
 
-    public JLabel createImageDisplayer(){
+    public JLabel createImageDisplayer() {
         JLabel button = new JLabel();
         button.setPreferredSize(new Dimension(640, 360));
         return button;

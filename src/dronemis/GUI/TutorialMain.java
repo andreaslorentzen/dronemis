@@ -9,16 +9,12 @@ import de.yadrone.base.exception.ARDroneException;
 import de.yadrone.base.exception.IExceptionListener;
 import de.yadrone.base.video.ImageListener;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 
 public class TutorialMain {
 
     static public boolean camera = true;
     static public boolean requestSwap;
     static public int number = 30;
-
 
     public TutorialMain() {
         IARDrone drone = null;
@@ -38,10 +34,9 @@ public class TutorialMain {
             // Tutorial Section 3
             //new TutorialVideoListener(drone);
             new GUI();
-            
             drone.getVideoManager().addImageListener(new ImageListener() {
                 public void imageUpdated(BufferedImage newImage) {
-                   // System.out.println(newImage.);
+                    // System.out.println(newImage.);
 //                    if(requestSwap){
 //                       number++;
 //                       if(number > 15)
@@ -57,11 +52,18 @@ public class TutorialMain {
 //                        }
 //                    }
                     for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateFrontImageListener()) {
-                            object.updateImage(newImage);
-                        }
-                    
+                        object.updateImage(newImage);
+                    }
+
                 }
             });
+
+            if (Keyboard.keys[KeyEvent.VK_Q]) {
+                drone.getCommandManager().takeOff().doFor(1000);
+            }
+            if (Keyboard.keys[KeyEvent.VK_Q]) {
+                drone.getCommandManager().landing();
+            }
 
             drone.getCommandManager().setVideoCodec(VideoCodec.H264_360P);
             drone.getCommandManager().setVideoBitrateControl(VideoBitRateMode.MANUAL);
