@@ -88,7 +88,7 @@ public class openCV {
         if (capture.isOpened()) {
             while (true) {
                 capture.read(webcamMatImage);
-                //filter(webcamMatImage);
+                convertToEdges(webcamMatImage);
                 if (!webcamMatImage.empty()) {
                     tempImage = imageProcessor.toBufferedImage(webcamMatImage);
                     ImageIcon imageIcon = new ImageIcon(tempImage, "Captured video");
@@ -107,14 +107,16 @@ public class openCV {
     public Mat convertToEdges(Mat img) {
 
         // Convert to greyscale:
-        Imgproc.cvtColor(img,img,Imgproc.COLOR_BGR2GRAY);
+
+        //Imgproc.cvtColor(img,img,Imgproc.COLOR_BGR2GRAY);
 
         // Add Gaussian noise:
         //Imgproc.GaussianBlur(img, img, new Size(3, 3), 0);
 
         // Paint edges:
+
+        //Imgproc.threshold(img,img,100,255,Imgproc.THRESH_TRUNC);
         //Imgproc.Canny(img, img, 250, 0);
-        Imgproc.threshold(img,img,100,255,Imgproc.THRESH_TRUNC);
 
         return img;
     }
