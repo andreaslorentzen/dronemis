@@ -3,10 +3,7 @@ package dronemis.GUI;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +11,9 @@ import java.io.IOException;
 /**
  * Created by AL on 17-02-2016.
  */
-public class GUI {
+public class GUI implements ActionListener {
 
+    public static final double SCALE = 0.7;
     private JLabel bottomImage;
     private JLabel frontImage;
     private JFrame mainFrame;
@@ -24,10 +22,42 @@ public class GUI {
     private JPanel controlPanel;
     private Keyboard keyboard;
 
+    private JTextField textField;
+    private JButton commandButton;
+    private JTextArea textArea;
+    private JScrollPane scrollPane;
+
     public GUI() {
         prepareGUI();
         keyboard = new Keyboard();
-        mainFrame.addKeyListener(keyboard);
+        mainFrame.addKeyListener(new KeyListener() {
+
+            private int KEY_COUNT = 256;
+            public boolean[] keys = null;
+
+            @Override
+            public synchronized void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public synchronized void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (keyCode >= 0 && keyCode < KEY_COUNT) {
+                    keys[keyCode] = true;
+                    System.out.println("keyPressed: " + keyCode + " " + keys[keyCode]);
+                }
+            }
+
+            @Override
+            public synchronized void keyReleased(KeyEvent e) {
+
+                int keyCode = e.getKeyCode();
+                if (keyCode >= 0 && keyCode < KEY_COUNT) {
+                    keys[keyCode] = false;
+                    System.out.println("keyReleased: " + keyCode + " " + keys[keyCode]);
+                }
+            }
+        });
         Listeners.getInstance().addUpdateFrontImageListener(image -> {
 
             ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
@@ -41,25 +71,6 @@ public class GUI {
             bottomImage.setIcon(tempImage);
 
         });
-
-        Listeners.getInstance().addUpdateBottomImageListener(image -> {
-            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
-            bottomImage.setIcon(tempImage);
-        });
-
-    }
-
-    public static void main(String[] args) throws IOException {
-        GUI swingControlDemo = new GUI();
-        //    swingControlDemo.showEventDemo();
-
-        BufferedImage image = ImageIO.read(new File("test.jpg"));
-        for (Listeners.UpdateImageListener listener : Listeners.getInstance().getUpdateFrontImageListener()) {
-            listener.updateImage(image);
-        }
-        for (Listeners.UpdateImageListener listener : Listeners.getInstance().getUpdateBottomImageListener()) {
-            listener.updateImage(image);
-        }
 
     }
 
@@ -90,40 +101,80 @@ public class GUI {
 
         GridBagConstraints c = new GridBagConstraints();
 
-        frontImage = createImageDisplayer();
 
-        c.weightx = 0.5;
+
+
+        // First Grid Row
+        frontImage = createImageDisplayer();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
-
         pane.add(frontImage, c);
 
         bottomImage = createImageDisplayer();
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 0;
         pane.add(bottomImage, c);
 
         JLabel label = createImageDisplayer();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
         c.gridx = 2;
-        c.gridy = 0;
         pane.add(label, c);
+        label.setText("placeholder");
 
-        JButton button;
 
-        button = new JButton("Long-Named Button 4");
-        button.setFocusable(false);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 40; //make this component tall
-        c.weightx = 0.0;
-        c.gridwidth = 3;
+
+        // 2. grid row
+        textArea = new JTextArea(30, 30);
+        textArea.setFocusable(false);
+        c.ipady = 0;
+        c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 1;
+
+        scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        pane.add(scrollPane, c);
+
+        textArea.append("Test1Test1Test1Test1Test1Test1Test1Test1Test1Test1\n");
+        textArea.append("Test2\n");
+        textArea.append("Test3\n");
+        textArea.append("Test4\n");
+        textArea.append("Test5");
+
+
+
+        // 3. grid row
+        textField = new JTextField();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 10;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        pane.add(textField, c);
+
+        commandButton = new JButton("Do command");
+        commandButton.setFocusable(false);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 5;
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 2;
+        pane.add(commandButton, c);
+
+        commandButton.addActionListener(this);
+
+
+/*
+
+
+        button = new JButton("5");
+        button.setFocusable(false);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 0; //reset to default
+        c.weighty = 1.0; //request any extra vertical space
+        c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+        c.insets = new Insets(10, 0, 0, 0); //top padding
+        c.gridx = 0; //aligned with button 2
+        c.gridwidth = 1; //2 columns wide
+        c.gridy = 2; //third row
         pane.add(button, c);
 
         button = new JButton("5");
@@ -134,48 +185,48 @@ public class GUI {
         c.anchor = GridBagConstraints.PAGE_END; //bottom of space
         c.insets = new Insets(10, 0, 0, 0); //top padding
         c.gridx = 1; //aligned with button 2
-        c.gridwidth = 2; //2 columns wide
+        c.gridwidth = 1; //2 columns wide
         c.gridy = 2; //third row
         pane.add(button, c);
+        */
     }
 
-    private void showEventDemo() {
-        JButton okButton = new JButton("OK");
-        JButton submitButton = new JButton("Submit");
-        JButton cancelButton = new JButton("Cancel");
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == commandButton){
 
-        okButton.setActionCommand("OK");
-        submitButton.setActionCommand("Submit");
-        cancelButton.setActionCommand("Cancel");
+            String command = textField.getText();
 
-        okButton.addActionListener(new ButtonClickListener());
-        submitButton.addActionListener(new ButtonClickListener());
-        cancelButton.addActionListener(new ButtonClickListener());
+            if(command == null || command.equals(""))
+                return;
 
-        controlPanel.add(okButton);
-        controlPanel.add(submitButton);
-        controlPanel.add(cancelButton);
+            textField.setText("");
 
-        mainFrame.setVisible(true);
-    }
+            if(commandListener != null && commandListener.doCommand(command)){
+                textArea.append("\n"+command);
 
-    private class ButtonClickListener implements ActionListener {
-
-        public void actionPerformed(ActionEvent e) {
-            String command = e.getActionCommand();
-            if (command.equals("OK")) {
-                statusLabel.setText("Ok Button clicked.");
-            } else if (command.equals("Submit")) {
-                statusLabel.setText("Submit Button clicked.");
-            } else {
-                statusLabel.setText("Cancel Button clicked.");
+                JScrollBar vertical = scrollPane.getVerticalScrollBar();
+                vertical.setValue( vertical.getMaximum() );
+            }
+            else{
+                textArea.append("\nCommand '"+command+"' was not executed");
             }
         }
     }
 
     public JLabel createImageDisplayer() {
         JLabel button = new JLabel();
-        button.setPreferredSize(new Dimension(640, 360));
+        button.setPreferredSize(new Dimension((int)(640*SCALE), (int)(360*SCALE)));
         return button;
+    }
+
+    private CommandListener commandListener;
+
+    public void setCommandListener(CommandListener commandListener) {
+        this.commandListener = commandListener;
+    }
+
+    public interface CommandListener {
+        boolean doCommand(String command);
     }
 }
