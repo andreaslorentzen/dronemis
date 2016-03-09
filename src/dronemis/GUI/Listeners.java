@@ -37,8 +37,16 @@ public class Listeners {
     public List<UpdateImageListener> getUpdateBottomImageListener() {
         return updateBottomImageListener;
     }
-
-
+    public void updateImageFront(BufferedImage newImage){
+        for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateFrontImageListener()) {
+            object.updateImage(newImage);
+        }
+    }
+    public void updateImageBottom(BufferedImage newImage){
+        for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateBottomImageListener()) {
+            object.updateImage(newImage);
+        }
+    }
 
     public interface UpdateImageListener {
         void updateImage(BufferedImage image);
