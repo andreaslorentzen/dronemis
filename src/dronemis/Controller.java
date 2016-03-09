@@ -5,30 +5,33 @@ import dronemis.GUI.GUI;
 public class Controller implements GUI.CommandListener {
 
     private GUI gui;
-    private Communicator communicator;
+    private IDroneHandler droneHandler;
+
+    private boolean manuelControl = true;
 
     public Controller() {
         this.gui = new GUI();
-        this.communicator = new Communicator();
+        this.droneHandler = new DroneHandler();
         gui.setCommandListener(this);
     }
 
     public void startSystem(){
-        communicator.takeOff();
+        droneHandler.takeOff();
     }
 
     @Override
     public boolean doCommand(String command) {
+        if(manuelControl)
         switch (command){
-            case "front":
-                communicator.useFrontCamera();
-                break;
-            case "bottom":
-                communicator.useBottomCamera();
-                break;
-            case "stop":
-                communicator.land();
-                break;
+            case "frontCamera":
+                droneHandler.useFrontCamera();
+                return true;
+            case "bottomCamera":
+                droneHandler.useBottomCamera();
+                return true;
+            case "land":
+                droneHandler.land();
+                return true;
         }
         return false;
     }

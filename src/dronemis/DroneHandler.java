@@ -8,20 +8,16 @@ import de.yadrone.base.command.VideoCodec;
 import de.yadrone.base.exception.ARDroneException;
 import de.yadrone.base.exception.IExceptionListener;
 import de.yadrone.base.video.ImageListener;
-import dronemis.GUI.GUI;
 import dronemis.GUI.Listeners;
 
 import java.awt.image.BufferedImage;
 
-/**
- * Created by mathias on 02/03/16.
- */
-public class Communicator {
+public class DroneHandler implements IDroneHandler {
     private IARDrone drone;
     private boolean isFront = true;
     private boolean isSwapping;
 
-    public Communicator() {
+    public DroneHandler() {
         try {
             // Tutorial Section 1
             this.drone = new ARDrone();
@@ -100,10 +96,10 @@ public class Communicator {
         drone.getCommandManager().setVideoChannel(VideoChannel.HORI);
         try {
             Thread.sleep(300);
-            isSwapping = false;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        isSwapping = false;
     }
 
     public void useBottomCamera(){
@@ -112,10 +108,9 @@ public class Communicator {
         drone.getCommandManager().setVideoChannel(VideoChannel.VERT);
         try {
             Thread.sleep(300);
-            System.out.println("kom");
-            isSwapping = false;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        isSwapping = false;
     }
 }
