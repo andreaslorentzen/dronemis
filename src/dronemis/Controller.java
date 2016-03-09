@@ -11,7 +11,7 @@ public class Controller implements GUI.CommandListener {
 
     public Controller() {
         this.gui = new GUI();
-        this.droneHandler = new DroneHandler();
+        this.droneHandler = new TestHandler();
         gui.setCommandListener(this);
     }
 
