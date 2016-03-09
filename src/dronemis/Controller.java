@@ -21,17 +21,18 @@ public class Controller implements GUI.CommandListener {
 
     @Override
     public boolean doCommand(String command) {
-        if(manuelControl)
-        switch (command){
-            case "frontCamera":
-                droneHandler.useFrontCamera();
-                return true;
-            case "bottomCamera":
-                droneHandler.useBottomCamera();
-                return true;
-            case "land":
-                droneHandler.land();
-                return true;
+        if(manuelControl){
+            switch (command){
+                case "frontCamera":
+                    droneHandler.useFrontCamera();
+                    return true;
+                case "bottomCamera":
+                    droneHandler.useBottomCamera();
+                    return true;
+                case "land":
+                    droneHandler.land();
+                    return true;
+            }
         }
         return false;
     }

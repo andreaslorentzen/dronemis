@@ -101,9 +101,6 @@ public class GUI implements ActionListener {
 
         GridBagConstraints c = new GridBagConstraints();
 
-
-
-
         // First Grid Row
         frontImage = createImageDisplayer();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -133,17 +130,12 @@ public class GUI implements ActionListener {
         scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         pane.add(scrollPane, c);
 
-        textArea.append("Test1Test1Test1Test1Test1Test1Test1Test1Test1Test1\n");
-        textArea.append("Test2\n");
-        textArea.append("Test3\n");
-        textArea.append("Test4\n");
-        textArea.append("Test5");
+        textArea.append("GUI START");
 
 
 
         // 3. grid row
         textField = new JTextField();
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
         c.gridwidth = 1;
         c.gridx = 0;
@@ -152,7 +144,6 @@ public class GUI implements ActionListener {
 
         commandButton = new JButton("Do command");
         commandButton.setFocusable(false);
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 5;
         c.gridwidth = 1;
         c.gridx = 1;
@@ -161,7 +152,43 @@ public class GUI implements ActionListener {
 
         commandButton.addActionListener(this);
 
+        JPanel panel2 = new JPanel();
+        c.ipady = 1;
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        pane.add(panel2, c);
+        panel2.setLayout(new GridBagLayout());
 
+        JButton button = new JButton("Front Camera");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(commandListener != null && commandListener.doCommand("frontCamera")){
+
+                }
+            }
+        });
+        button.setFocusable(false);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        panel2.add(button, c);
+
+        button = new JButton("Bottom Camera");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(commandListener != null && commandListener.doCommand("bottomCamera")){
+
+                }
+            }
+        });
+        button.setFocusable(false);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        panel2.add(button, c);
 /*
 
 

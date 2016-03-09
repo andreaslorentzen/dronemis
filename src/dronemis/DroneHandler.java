@@ -87,7 +87,7 @@ public class DroneHandler implements IDroneHandler {
     }
 
     public void flyToCoordinates(int x, int y, int z){
-        // TODO implement this when we have more knowledge about openCV
+        // TODO implement this when we have more knowledge about OpenCVHelper
     }
 
     public void useFrontCamera(){

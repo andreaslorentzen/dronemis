@@ -13,12 +13,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class openCV {
+public class OpenCVHelper {
 
     static private JFrame frame;
     static private JLabel imageLabel;
 
-    public openCV () throws InterruptedException {
+    public OpenCVHelper() throws InterruptedException {
         initLib();
         initGUI();
         webcamCapture();
@@ -46,7 +46,7 @@ public class openCV {
         */
     }
 
-    private boolean initLib() {
+    public static boolean initLib() {
 
         final String OS = System.getProperty("os.name").toLowerCase();
         final String bitness = System.getProperty("sun.arch.data.model");
