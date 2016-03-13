@@ -1,5 +1,8 @@
 package dronemis;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 public interface IDroneHandler {
     void takeOff();
 
@@ -8,4 +11,6 @@ public interface IDroneHandler {
     void useBottomCamera();
 
     void land();
+
+    void saveImage(BufferedImage bi) throws IOException;
 }

@@ -10,12 +10,19 @@ import de.yadrone.base.exception.IExceptionListener;
 import de.yadrone.base.video.ImageListener;
 import dronemis.GUI.Listeners;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class DroneHandler implements IDroneHandler {
     private IARDrone drone;
     private boolean isFront = true;
     private boolean isSwapping;
+
+    // Variables for cascade-training:
+    static public int imageI = 0;           // Frame-counter
+    static public int imageSaveRate = 0;    // Save every X frames to disk (FPS=30). Disabled if 0
 
     public DroneHandler() {
         try {
@@ -41,6 +48,13 @@ public class DroneHandler implements IDroneHandler {
                             Listeners.getInstance().updateImageFront(newImage);
                         } else {
                             Listeners.getInstance().updateImageBottom(newImage);
+                        }
+                        if (imageSaveRate > 0){
+                            try {
+                                saveImage(newImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -112,5 +126,15 @@ public class DroneHandler implements IDroneHandler {
             e.printStackTrace();
         }
         isSwapping = false;
+    }
+
+    // Used for creating cascades for openCV
+    public void saveImage(BufferedImage bi) throws IOException {
+        if (imageI % imageSaveRate == 0){
+            String cwd = System.getProperty("user.dir");
+            File outputfile = new File(cwd + "/savedImages/cascade" + imageI/imageSaveRate + ".png");
+            ImageIO.write(bi, "png", outputfile);
+        }
+        imageI++;
     }
 }

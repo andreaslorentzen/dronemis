@@ -9,6 +9,7 @@ import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class TestHandler implements IDroneHandler {
 
@@ -76,6 +77,11 @@ public class TestHandler implements IDroneHandler {
 
     @Override
     public void land() {
+
+    }
+
+    @Override
+    public void saveImage(BufferedImage bi) throws IOException {
 
     }
 }
