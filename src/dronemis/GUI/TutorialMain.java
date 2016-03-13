@@ -9,8 +9,11 @@ import de.yadrone.base.exception.ARDroneException;
 import de.yadrone.base.exception.IExceptionListener;
 import de.yadrone.base.video.ImageListener;
 
+import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class TutorialMain {
 
@@ -18,9 +21,15 @@ public class TutorialMain {
     static public boolean requestSwap;
     static public int number = 30;
 
+    // Variables for cascade-training:
+    static public int imageI = 0;           // Frame-counter
+    static public int imageSaveRate = 0;    // Save every X frame to disk (FPS=30). Disabled if 0
+
     public TutorialMain() {
+
         IARDrone drone = null;
         try {
+
             // Tutorial Section 1
             drone = new ARDrone();
             drone.addExceptionListener(new IExceptionListener() {
@@ -36,8 +45,10 @@ public class TutorialMain {
             // Tutorial Section 3
             //new TutorialVideoListener(drone);
             new GUI();
+
             drone.getVideoManager().addImageListener(new ImageListener() {
                 public void imageUpdated(BufferedImage newImage) {
+
                     // System.out.println(newImage.);
 //                    if(requestSwap){
 //                       number++;
@@ -55,6 +66,14 @@ public class TutorialMain {
 //                    }
                     for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateFrontImageListener()) {
                         object.updateImage(newImage);
+
+                        if (imageSaveRate > 0){
+                            try {
+                                saveImage(newImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
 
                 }
@@ -99,6 +118,16 @@ public class TutorialMain {
 
 			System.exit(0);
 		}*/
+    }
+
+    // Used for creating cascades for openCV
+    void saveImage(BufferedImage bi) throws IOException {
+        if (imageI % imageSaveRate == 0){
+            String cwd = System.getProperty("user.dir");
+            File outputfile = new File(cwd + "/savedImages/test" + imageI/imageSaveRate + ".png");
+            ImageIO.write(bi, "png", outputfile);
+        }
+        imageI++;
     }
 
     public static void main(String[] args) {
