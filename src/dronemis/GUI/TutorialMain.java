@@ -23,7 +23,7 @@ public class TutorialMain {
 
     // Variables for cascade-training:
     static public int imageI = 0;           // Frame-counter
-    static public int imageSaveRate = 0;    // Save every X frame to disk (FPS=30). Disabled if 0
+    static public int imageSaveRate = 0;    // Save every X frames to disk (FPS=30). Disabled if 0
 
     public TutorialMain() {
 
@@ -124,7 +124,7 @@ public class TutorialMain {
     void saveImage(BufferedImage bi) throws IOException {
         if (imageI % imageSaveRate == 0){
             String cwd = System.getProperty("user.dir");
-            File outputfile = new File(cwd + "/savedImages/test" + imageI/imageSaveRate + ".png");
+            File outputfile = new File(cwd + "/savedImages/cascade" + imageI/imageSaveRate + ".png");
             ImageIO.write(bi, "png", outputfile);
         }
         imageI++;
