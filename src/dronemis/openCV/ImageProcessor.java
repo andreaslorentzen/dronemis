@@ -1,9 +1,9 @@
 package dronemis.openCV;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 public class ImageProcessor {
@@ -22,7 +22,21 @@ public class ImageProcessor {
 		return image;
 	}
 
-        
+	public Mat toMatImage(BufferedImage image) {
+		// Convert INT to BYTE
+		//im = new BufferedImage(im.getWidth(), im.getHeight(),BufferedImage.TYPE_3BYTE_BGR);
+		// Convert bufferedimage to byte array
+		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer())
+				.getData();
+
+		// Create a Matrix the same size of image
+		Mat imageMat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
+
+		// Fill Matrix with image values
+		imageMat.put(0, 0, pixels);
+
+		return imageMat;
+	}
         
         
 }
