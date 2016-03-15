@@ -30,13 +30,18 @@ public class Cascade {
         //Listeners.getInstance().addUpdateBottomImageListener(new Listeners.UpdateImageListener() {
         Listeners.getInstance().addUpdateFrontImageListener(new Listeners.UpdateImageListener() {
             public int imageI = 0;
-            public int imageSaveRate = 0;
+            public int imageSaveRate = 30;
 
             @Override
             public void updateImage(BufferedImage image) {
                 Mat imageMat = imageProcessor.toMatImage(image);
                 cv.compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_redCube.xml", imageMat);
                 image = imageProcessor.toBufferedImage(imageMat);
+
+                /*** ANDREAS HAR SAT DET HER IND **/
+                Listeners.getInstance().updateImageListener("filtered", image);
+                /*** ANDREAS HAR SAT DET HER IND **/
+
                 if (imageSaveRate > 0){
                     try {
                         if (imageI % imageSaveRate == 0){

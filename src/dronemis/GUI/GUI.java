@@ -3,11 +3,12 @@ package dronemis.GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class GUI implements ActionListener {
 
     public static final double SCALE = 0.7;
-    private JLabel bottomImage;
+    private JLabel filteredImage;
     private JLabel frontImage;
     private JFrame mainFrame;
     private JLabel headerLabel;
@@ -51,18 +52,22 @@ public class GUI implements ActionListener {
                 }
             }
         });
-        Listeners.getInstance().addUpdateFrontImageListener(image -> {
+        Listeners.UpdateImageListener frontBottomImageLitener = new Listeners.UpdateImageListener() {
+            @Override
+            public void updateImage(BufferedImage image) {
+                ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
+                frontImage.setIcon(tempImage);
+            }
+        };
+        Listeners.getInstance().addUpdateFrontImageListener(frontBottomImageLitener);
+        Listeners.getInstance().addUpdateBottomImageListener(frontBottomImageLitener);
 
-            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
-            frontImage.setIcon(tempImage);
-
-        });
-
-        Listeners.getInstance().addUpdateBottomImageListener(image -> {
-
-            ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
-            bottomImage.setIcon(tempImage);
-
+        Listeners.getInstance().addImageListener("filtered", new Listeners.UpdateImageListener() {
+            @Override
+            public void updateImage(BufferedImage image) {
+                ImageIcon tempImage = new ImageIcon(image.getScaledInstance(640, 360, Image.SCALE_SMOOTH));
+                filteredImage.setIcon(tempImage);
+            }
         });
 
     }
@@ -101,9 +106,9 @@ public class GUI implements ActionListener {
         c.gridy = 0;
         pane.add(frontImage, c);
 
-        bottomImage = createImageDisplayer();
+        filteredImage = createImageDisplayer();
         c.gridx = 1;
-        pane.add(bottomImage, c);
+        pane.add(filteredImage, c);
 
         JLabel label = createImageDisplayer();
         c.gridx = 2;

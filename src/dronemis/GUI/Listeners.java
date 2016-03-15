@@ -44,14 +44,12 @@ public class Listeners {
     }
 
 
-    public Map<String, List<UpdateImageListener>> imageListeners = new HashMap<>();
+    private Map<String, List<UpdateImageListener>> imageListeners = new HashMap<>();
     public void addImageListener(String label, Listeners.UpdateImageListener listener){
-        if(imageListeners.containsKey(label)){
-            imageListeners.get(label).add(listener);
+        if(!imageListeners.containsKey(label)){
+            imageListeners.put(label, new LinkedList<>());
         }
-        else{
-            imageListeners.put(label, new LinkedList<>()).add(listener);
-        }
+        imageListeners.get(label).add(listener);
     }
     public boolean updateImageListener(String label, BufferedImage image){
         if(imageListeners.containsKey(label)){
