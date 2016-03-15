@@ -2,48 +2,15 @@ package dronemis.openCV;
 
 import org.opencv.core.*;
 import org.opencv.core.Point;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.videoio.VideoCapture;
-import org.opencv.videoio.Videoio;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OpenCVHelper {
 
-    static private JFrame frame;
-    static private JLabel imageLabel;
     static private final String cwd = System.getProperty("user.dir");
 
     public OpenCVHelper() throws InterruptedException {
         initLib();
-        initGUI();
-        webcamCapture();
-    }
-
-    public void testCV(){
-
-        Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/image.JPG");
-        List<MatOfPoint> contours = new ArrayList<>();
-        convertToEdges(image);
-        Mat hir = new Mat();
-        Imgproc.findContours(image, contours, hir, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-        Imgproc.drawContours(image, contours,-1, new Scalar(255),-1);
-
-        //compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_frontalface_alt.xml", image);
-        ImageViewer iv = new ImageViewer();
-        iv.show(image,"test");
-
-        /*
-        String filename = "filtered.png";
-        System.out.println("Writing output to: " + filename);
-        Imgcodecs.imwrite(filename, image);
-        */
     }
 
     public static boolean initLib() {
@@ -68,41 +35,6 @@ public class OpenCVHelper {
         return true;
     }
 
-    private void initGUI() {
-        frame = new JFrame("Camera Input Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(200, 200);
-        imageLabel = new JLabel();
-        frame.add(imageLabel);
-        frame.setVisible(true);
-    }
-
-    private void webcamCapture() {
-        ImageProcessor imageProcessor = new ImageProcessor();
-        Mat webcamMatImage = new Mat();
-        Image tempImage;
-        VideoCapture capture = new VideoCapture(0);
-        capture.set(Videoio.CAP_PROP_FRAME_WIDTH, 640);
-        capture.set(Videoio.CAP_PROP_FRAME_HEIGHT, 480);
-        if (capture.isOpened()) {
-            while (true) {
-                capture.read(webcamMatImage);
-                //convertToEdges(webcamMatImage);
-                compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_redCube.xml", webcamMatImage);
-                if (!webcamMatImage.empty()) {
-                    tempImage = imageProcessor.toBufferedImage(webcamMatImage);
-                    ImageIcon imageIcon = new ImageIcon(tempImage, "Captured video");
-                    imageLabel.setIcon(imageIcon);
-                    frame.pack(); //this will resize the window to fit the image
-                } else {
-                    System.out.println(" -- Frame not captured -- Break!");
-                    break;
-                }
-            }
-        } else {
-            System.out.println("Couldn't open capture.");
-        }
-    }
 
     public Mat convertToEdges(Mat img) {
 
