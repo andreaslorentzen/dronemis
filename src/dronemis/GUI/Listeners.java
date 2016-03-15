@@ -4,9 +4,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by AL on 17-02-2016.
- */
 public class Listeners {
     private static Listeners ourInstance = new Listeners();
 
@@ -17,36 +14,35 @@ public class Listeners {
     private Listeners() {
     }
 
+    private List<UpdateImageListener> updateFrontImageListeners = new LinkedList<>();
 
-    private List<UpdateImageListener> updateFrontImageListener = new LinkedList<>();
     public void addUpdateFrontImageListener(UpdateImageListener updateImageListener) {
-        if(!updateFrontImageListener.contains(updateImageListener))
-        updateFrontImageListener.add(updateImageListener);
+        if (!updateFrontImageListeners.contains(updateImageListener))
+            updateFrontImageListeners.add(updateImageListener);
     }
 
-    public List<UpdateImageListener> getUpdateFrontImageListener() {
-        return updateFrontImageListener;
+    public void updateImageFront(BufferedImage newImage) {
+        for (Listeners.UpdateImageListener object : updateFrontImageListeners) {
+            object.updateImage(newImage);
+        }
     }
 
-    private List<UpdateImageListener> updateBottomImageListener = new LinkedList<>();
+
+    private List<UpdateImageListener> updateBottomImageListeners = new LinkedList<>();
+
     public void addUpdateBottomImageListener(UpdateImageListener updateImageListener) {
-        if(!updateBottomImageListener.contains(updateImageListener))
-            updateBottomImageListener.add(updateImageListener);
+        if (!updateBottomImageListeners.contains(updateImageListener))
+            updateBottomImageListeners.add(updateImageListener);
     }
 
-    public List<UpdateImageListener> getUpdateBottomImageListener() {
-        return updateBottomImageListener;
-    }
-    public void updateImageFront(BufferedImage newImage){
-        for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateFrontImageListener()) {
+    public void updateImageBottom(BufferedImage newImage) {
+        for (Listeners.UpdateImageListener object : updateBottomImageListeners) {
             object.updateImage(newImage);
         }
     }
-    public void updateImageBottom(BufferedImage newImage){
-        for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateBottomImageListener()) {
-            object.updateImage(newImage);
-        }
-    }
+
+
+
 
     public interface UpdateImageListener {
         void updateImage(BufferedImage image);

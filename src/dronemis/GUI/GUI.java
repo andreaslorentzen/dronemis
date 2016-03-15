@@ -1,16 +1,9 @@
 package dronemis.GUI;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-/**
- * Created by AL on 17-02-2016.
- */
 public class GUI implements ActionListener {
 
     public static final double SCALE = 0.7;

@@ -64,17 +64,16 @@ public class TutorialMain {
 //                            object.updateImage(newImage);
 //                        }
 //                    }
-                    for (Listeners.UpdateImageListener object : Listeners.getInstance().getUpdateFrontImageListener()) {
-                        object.updateImage(newImage);
+                    Listeners.getInstance().updateImageFront(newImage);
 
-                        if (imageSaveRate > 0){
-                            try {
-                                saveImage(newImage);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                    if (imageSaveRate > 0){
+                        try {
+                            saveImage(newImage);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
+
 
                 }
             });
