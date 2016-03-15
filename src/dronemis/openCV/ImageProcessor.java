@@ -23,13 +23,13 @@ public class ImageProcessor {
 	}
 
 	public Mat toMatImage(BufferedImage image) {
-		// Convert bufferedimage to byte array
+		// Convert to byte array
 		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 
-		// Create a Matrix the same size of image
+		// Create a Matrix
 		Mat imageMat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
 
-		// Fill Matrix with image values
+		// Fill Matrix
 		imageMat.put(0, 0, pixels);
 
 		return imageMat;
