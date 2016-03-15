@@ -13,8 +13,10 @@ import java.io.IOException;
  */
 public class Cascade {
     public static void main(String[] args){
-        new TestHandler().init();
+        //new TestHandler().init();
+        new DroneHandler().init();
         new GUI();
+        //Listeners.getInstance().addUpdateBottomImageListener(new Listeners.UpdateImageListener() {
         Listeners.getInstance().addUpdateFrontImageListener(new Listeners.UpdateImageListener() {
             public int imageI = 0;
             public int imageSaveRate = 30;
@@ -25,8 +27,8 @@ public class Cascade {
                     try {
                         if (imageI % imageSaveRate == 0){
                             String cwd = System.getProperty("user.dir");
-                            File outputfile = new File(cwd + "/savedImages/cascade" + imageI/imageSaveRate + ".png");
-                            ImageIO.write(image, "png", outputfile);
+                            File outputfile = new File(cwd + "/savedImages/cascade" + imageI/imageSaveRate + ".bmp");
+                            ImageIO.write(image, "bmp", outputfile);
                         }
                         imageI++;
                     } catch (IOException e) {

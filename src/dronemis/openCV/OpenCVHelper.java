@@ -17,6 +17,7 @@ public class OpenCVHelper {
 
     static private JFrame frame;
     static private JLabel imageLabel;
+    static private final String cwd = System.getProperty("user.dir");
 
     public OpenCVHelper() throws InterruptedException {
         initLib();
@@ -25,7 +26,6 @@ public class OpenCVHelper {
     }
 
     public void testCV(){
-        final String cwd = System.getProperty("user.dir");
 
         Mat image = Imgcodecs.imread(cwd + "/src/dronemis/openCV/image.JPG");
         List<MatOfPoint> contours = new ArrayList<>();
@@ -47,25 +47,24 @@ public class OpenCVHelper {
     }
 
     public static boolean initLib() {
-
+        String cwdLib;
         final String OS = System.getProperty("os.name").toLowerCase();
         final String bitness = System.getProperty("sun.arch.data.model");
-        String cwd = System.getProperty("user.dir");
 
         if (OS.contains("windows")){
             if (bitness.equals("64"))
-                cwd = cwd + "\\lib\\openCV\\x64\\opencv_java310.dll";
+                cwdLib = cwd + "\\lib\\openCV\\x64\\opencv_java310.dll";
             else
-                cwd = cwd + "\\lib\\openCV\\x86\\opencv_java310.dll";
+                cwdLib = cwd + "\\lib\\openCV\\x86\\opencv_java310.dll";
         }
         else if (OS.contains("mac"))
-            cwd = cwd + "/lib/openCV/Mac/libopencv_java310.so";
+            cwdLib = cwd + "/lib/openCV/Mac/libopencv_java310.so";
         else {
             System.err.println("Unable to determine OS!");
             return false;
         }
 
-        System.load(cwd);
+        System.load(cwdLib);
         return true;
     }
 
@@ -88,7 +87,8 @@ public class OpenCVHelper {
         if (capture.isOpened()) {
             while (true) {
                 capture.read(webcamMatImage);
-                convertToEdges(webcamMatImage);
+                //convertToEdges(webcamMatImage);
+                compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_redCube.xml", webcamMatImage);
                 if (!webcamMatImage.empty()) {
                     tempImage = imageProcessor.toBufferedImage(webcamMatImage);
                     ImageIcon imageIcon = new ImageIcon(tempImage, "Captured video");
@@ -132,7 +132,7 @@ public class OpenCVHelper {
 
         for (Rect rect : cascadeDetections.toArray()) {
             Imgproc.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
-                    new Scalar(0, 0, 0));
+                    new Scalar(0, 255, 0));
         }
 
         return image;
