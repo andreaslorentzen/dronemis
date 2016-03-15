@@ -21,11 +21,11 @@ public class Cascade {
     static private final String cwd = System.getProperty("user.dir");
 
     public static void main(String[] args) throws InterruptedException {
-        Scanner key = new Scanner(System.in);
+
         ImageProcessor imageProcessor = new ImageProcessor();
         OpenCVHelper cv = new OpenCVHelper();
+        //new TestHandler().init();
         new TestHandler().init();
-        //new DroneHandler().init();
         new GUI();
         //Listeners.getInstance().addUpdateBottomImageListener(new Listeners.UpdateImageListener() {
         Listeners.getInstance().addUpdateFrontImageListener(new Listeners.UpdateImageListener() {
@@ -40,7 +40,6 @@ public class Cascade {
                 if (imageSaveRate > 0){
                     try {
                         if (imageI % imageSaveRate == 0){
-                            String cwd = System.getProperty("user.dir");
                             File outputfile = new File(cwd + "/savedImages/cascade" + imageI/imageSaveRate + ".bmp");
                             ImageIO.write(image, "bmp", outputfile);
                         }
@@ -49,8 +48,6 @@ public class Cascade {
                         e.printStackTrace();
                     }
                 }
-
-
             }
         });
         while (true){
