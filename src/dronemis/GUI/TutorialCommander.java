@@ -48,7 +48,7 @@ public class TutorialCommander
 		cmd.landing();
 		
 		// alternative: asynchronous call
-//		cmd.takeOff();
+//		cmd.init();
 //		cmd.schedule(5000, new Runnable() { // schedule to be executed in 5 secs
 //			public void run()
 //			{

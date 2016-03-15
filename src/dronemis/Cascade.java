@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class Cascade {
     public static void main(String[] args){
-        new TestHandler().takeOff();
+        new TestHandler().init();
         new GUI();
         Listeners.getInstance().addUpdateFrontImageListener(new Listeners.UpdateImageListener() {
             public int imageI = 0;

@@ -124,6 +124,7 @@ public class GUI implements ActionListener {
         textArea.setFocusable(false);
         c.ipady = 0;
         c.gridwidth = 2;
+        c.gridheight = 3;
         c.gridx = 0;
         c.gridy = 1;
 
@@ -138,16 +139,19 @@ public class GUI implements ActionListener {
         textField = new JTextField();
         c.ipady = 10;
         c.gridwidth = 1;
+
+        c.gridheight = 1;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 4;
         pane.add(textField, c);
 
         commandButton = new JButton("Do command");
         commandButton.setFocusable(false);
         c.ipady = 5;
         c.gridwidth = 1;
+        c.gridheight = 1;
         c.gridx = 1;
-        c.gridy = 2;
+        c.gridy = 4;
         pane.add(commandButton, c);
 
         commandButton.addActionListener(this);
@@ -189,6 +193,70 @@ public class GUI implements ActionListener {
         c.gridy = 1;
         c.gridwidth = 1;
         panel2.add(button, c);
+
+
+
+
+
+
+
+
+        button = new JButton("Keyboard");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        button.addKeyListener(new  KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_W:
+                        commandListener.doCommand("droneMoveForward");
+                        break;
+                    case KeyEvent.VK_A:
+                        commandListener.doCommand("droneMoveLeft");
+                        break;
+                    case KeyEvent.VK_S:
+                        commandListener.doCommand("droneMoveBackward");
+                        break;
+                    case KeyEvent.VK_D:
+                        commandListener.doCommand("droneMoveRight");
+                        break;
+
+                    case KeyEvent.VK_LEFT:
+                        commandListener.doCommand("droneTurnLeft");
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        commandListener.doCommand("droneTurnRight");
+                        break;
+                    case KeyEvent.VK_UP:
+                        commandListener.doCommand("droneMoveUp");
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        commandListener.doCommand("droneMoveDown");
+                        break;
+
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        button.setFocusable(true);
+        c.gridx = 2;
+        c.gridy = 3;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        pane.add(button, c);
 /*
 
 

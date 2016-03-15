@@ -16,7 +16,7 @@ public class Controller implements GUI.CommandListener {
     }
 
     public void startSystem(){
-        droneHandler.takeOff();
+        droneHandler.init();
     }
 
     @Override
@@ -32,7 +32,26 @@ public class Controller implements GUI.CommandListener {
                 case "land":
                     droneHandler.land();
                     return true;
+
+
+                case "droneMoveForward":
+                    return true;
+                case "droneMoveLeft":
+                    return true;
+                case "droneMoveBackward":
+                    return true;
+                case "droneMoveRight":
+                    return true;
+                case "droneTurnLeft":
+                    return true;
+                case "droneTurnRight":
+                    return true;
+                case "droneMoveUp":
+                    return true;
+                case "droneMoveDown":
+                    return true;
             }
+
         }
         return false;
     }

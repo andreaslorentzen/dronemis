@@ -24,7 +24,7 @@ public class TestHandler implements IDroneHandler {
     Mat webcamMatImage;
 
     @Override
-    public void takeOff() {
+    public void init() {
         imageProcessor = new ImageProcessor();
         webcamMatImage = new Mat();
         capture = new VideoCapture(0);
@@ -61,6 +61,11 @@ public class TestHandler implements IDroneHandler {
         } else {
             System.out.println("Couldn't open capture.");
         }
+    }
+
+    @Override
+    public void takeOff() {
+
     }
 
     @Override

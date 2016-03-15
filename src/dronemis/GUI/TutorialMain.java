@@ -81,7 +81,7 @@ public class TutorialMain {
 
             /*
             if (Keyboard.keys[KeyEvent.VK_Q]) {
-                drone.getCommandManager().takeOff().doFor(1000);
+                drone.getCommandManager().init().doFor(1000);
             }
             if (Keyboard.keys[KeyEvent.VK_Q]) {
                 drone.getCommandManager().landing();

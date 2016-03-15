@@ -31,7 +31,7 @@ public class DroneHandler implements IDroneHandler {
         }
     }
 
-    public void takeOff(){
+    public void init(){
         try{
             drone.start();
             drone.getVideoManager().addImageListener(new ImageListener() {
@@ -54,7 +54,7 @@ public class DroneHandler implements IDroneHandler {
 
                 /*
                 if (Keyboard.keys[KeyEvent.VK_Q]) {
-                    drone.getCommandManager().takeOff().doFor(1000);
+                    drone.getCommandManager().init().doFor(1000);
                 }
                 if (Keyboard.keys[KeyEvent.VK_Q]) {
                     drone.getCommandManager().landing();
@@ -80,6 +80,11 @@ public class DroneHandler implements IDroneHandler {
         } catch (Exception exc) {
             exc.printStackTrace();
         }
+    }
+
+    @Override
+    public void takeOff() {
+        drone.takeOff();
     }
 
     public void land(){
