@@ -1,8 +1,10 @@
 package dronemis.GUI;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Listeners {
     private static Listeners ourInstance = new Listeners();
@@ -42,7 +44,24 @@ public class Listeners {
     }
 
 
-
+    public Map<String, List<UpdateImageListener>> imageListeners = new HashMap<>();
+    public void addImageListener(String label, Listeners.UpdateImageListener listener){
+        if(imageListeners.containsKey(label)){
+            imageListeners.get(label).add(listener);
+        }
+        else{
+            imageListeners.put(label, new LinkedList<>()).add(listener);
+        }
+    }
+    public boolean updateImageListener(String label, BufferedImage image){
+        if(imageListeners.containsKey(label)){
+            for (Listeners.UpdateImageListener listener : imageListeners.get(label)) {
+                listener.updateImage(image);
+            }
+            return true;
+        }
+        return false;
+    }
 
     public interface UpdateImageListener {
         void updateImage(BufferedImage image);
