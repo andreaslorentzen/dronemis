@@ -2,27 +2,41 @@ package dronemis;
 
 import dronemis.GUI.GUI;
 import dronemis.GUI.Listeners;
+import dronemis.openCV.ImageProcessor;
+import dronemis.openCV.OpenCVHelper;
+import org.opencv.core.Mat;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
+
 
 /**
  * Created by AL on 15-03-2016.
  */
 public class Cascade {
-    public static void main(String[] args){
-        //new TestHandler().init();
-        new DroneHandler().init();
+
+    static private final String cwd = System.getProperty("user.dir");
+
+    public static void main(String[] args) throws InterruptedException {
+        Scanner key = new Scanner(System.in);
+        ImageProcessor imageProcessor = new ImageProcessor();
+        OpenCVHelper cv = new OpenCVHelper();
+        new TestHandler().init();
+        //new DroneHandler().init();
         new GUI();
         //Listeners.getInstance().addUpdateBottomImageListener(new Listeners.UpdateImageListener() {
         Listeners.getInstance().addUpdateFrontImageListener(new Listeners.UpdateImageListener() {
             public int imageI = 0;
-            public int imageSaveRate = 30;
+            public int imageSaveRate = 0;
 
             @Override
             public void updateImage(BufferedImage image) {
+                Mat imageMat = imageProcessor.toMatImage(image);
+                cv.compareToCascade(cwd + "/src/dronemis/openCV/haarcascade_redCube.xml", imageMat);
+                image = imageProcessor.toBufferedImage(imageMat);
                 if (imageSaveRate > 0){
                     try {
                         if (imageI % imageSaveRate == 0){
