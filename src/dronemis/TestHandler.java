@@ -80,8 +80,4 @@ public class TestHandler implements IDroneHandler {
 
     }
 
-    @Override
-    public void saveImage(BufferedImage bi) throws IOException {
-
-    }
 }

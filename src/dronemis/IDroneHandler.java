@@ -12,6 +12,4 @@ public interface IDroneHandler {
 
     void land();
 
-    void saveImage(BufferedImage bi) throws IOException;
-
 }
