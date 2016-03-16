@@ -31,7 +31,7 @@ class ANode {
 
     @Override
     public String toString() {
-        return x + ":" + y + ":" + z + " GS=" + gScore + " FS=" + fScore + " explored=" + explored;
+        return x + ":" + y + ":" + z;
     }
 
 }
