@@ -14,8 +14,7 @@ public class DroneHandler implements IDroneHandler {
     private IARDrone drone;
     private boolean isFront = true;
     private boolean isFlying = false;
-    private boolean isStarted = false;
-    private boolean isMoving = false;
+    private boolean useMove = false;
     private boolean isSwapping;
     private int speed = 20;
     private int duration = 20;
@@ -92,56 +91,87 @@ public class DroneHandler implements IDroneHandler {
     }
 
     public void land(){
-
         drone.landing();
         isFlying = false;
     }
 
     @Override
     public void moveForward() {
-        drone.getCommandManager().forward(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().forward(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, -speed, 0, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void moveBackward() {
-        drone.getCommandManager().backward(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().backward(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, speed, 0, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void moveLeft() {
-        drone.getCommandManager().goLeft(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().goLeft(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(-speed, 0, 0, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void moveRight() {
-        drone.getCommandManager().goRight(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().goRight(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(speed, 0, 0, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void moveUp() {
-        drone.getCommandManager().up(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().up(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, 0, speed, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void moveDown() {
-        drone.getCommandManager().down(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().down(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, 0, -speed, 0).doFor(duration);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void turnLeft() {
-        drone.getCommandManager().spinLeft(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().spinLeft(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, 0, 0, -speed);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
     @Override
     public void turnRight() {
-        drone.getCommandManager().spinRight(speed).doFor(duration);
+        if(!useMove)
+            drone.getCommandManager().spinRight(speed).doFor(duration);
+        else
+            drone.getCommandManager().move(0, 0, 0, speed);
+
         drone.getCommandManager().freeze().doFor(freezeDuration);
     }
 
