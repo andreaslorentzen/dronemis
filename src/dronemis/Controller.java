@@ -65,36 +65,4 @@ public class Controller implements GUI.CommandListener {
         }
         return false;
     }
-    public boolean stopCommand(String command) {
-        if(manuelControl){
-            switch (command){
-                case "droneMoveForward":
-                    droneHandler.moveBackward();
-                    return true;
-                case "droneMoveLeft":
-                    droneHandler.moveRight();
-                    return true;
-                case "droneMoveBackward":
-                    droneHandler.moveForward();
-                    return true;
-                case "droneMoveRight":
-                    droneHandler.moveLeft();
-                    return true;
-                case "droneTurnLeft":
-                    droneHandler.turnRight();
-                    return true;
-                case "droneTurnRight":
-                    droneHandler.turnLeft();
-                    return true;
-                case "droneMoveUp":
-                    droneHandler.moveDown();
-                    return true;
-                case "droneMoveDown":
-                    droneHandler.moveUp();
-                    return true;
-            }
-
-        }
-        return false;
-    }
 }

@@ -259,35 +259,7 @@ public class GUI {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                switch (e.getKeyCode()){
-                    case KeyEvent.VK_W:
-                        commandListener.stopCommand("droneMoveForward");
-                        break;
-                    case KeyEvent.VK_A:
-                        commandListener.stopCommand("droneMoveLeft");
-                        break;
-                    case KeyEvent.VK_S:
-                        commandListener.stopCommand("droneMoveBackward");
-                        break;
-                    case KeyEvent.VK_D:
-                        commandListener.stopCommand("droneMoveRight");
-                        break;
 
-
-                    case KeyEvent.VK_LEFT:
-                        commandListener.stopCommand("droneTurnLeft");
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        commandListener.stopCommand("droneTurnRight");
-                        break;
-                    case KeyEvent.VK_UP:
-                        commandListener.stopCommand("droneMoveUp");
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        commandListener.stopCommand("droneMoveDown");
-                        break;
-
-                }
             }
         });
 /*
@@ -345,6 +317,5 @@ public class GUI {
 
     public interface CommandListener {
         boolean doCommand(String command);
-        boolean stopCommand(String command);
     }
 }
