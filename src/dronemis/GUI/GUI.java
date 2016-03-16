@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class GUI implements ActionListener {
+public class GUI {
 
     public static final double SCALE = 0.7;
     private JLabel filteredImage;
@@ -98,77 +98,96 @@ public class GUI implements ActionListener {
         pane.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
-
-        // First Grid Row
-        frontImage = createImageDisplayer();
         c.fill = GridBagConstraints.HORIZONTAL;
+
+
+        frontImage = createImageDisplayer();
         c.gridx = 0;
         c.gridy = 0;
         pane.add(frontImage, c);
 
         filteredImage = createImageDisplayer();
-        c.gridx = 1;
+        c.gridx = 3;
         pane.add(filteredImage, c);
 
-        JLabel label = createImageDisplayer();
-        c.gridx = 2;
-        pane.add(label, c);
-        label.setText("placeholder");
-
-
-
-        // 2. grid row
-        textArea = new JTextArea(30, 30);
+        textArea = new JTextArea(29, 62);
         textArea.setFocusable(false);
-        c.ipady = 0;
         c.gridwidth = 2;
-        c.gridheight = 3;
-        c.gridx = 0;
-        c.gridy = 1;
+        c.gridheight = 2;
+        c.gridx = 1;
+        c.gridy = 0;
 
         scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         pane.add(scrollPane, c);
-
         textArea.append("GUI START");
 
 
-
-        // 3. grid row
-        textField = new JTextField();
-        c.ipady = 10;
+        JLabel label = createImageDisplayer();
         c.gridwidth = 1;
-
-        c.gridheight = 1;
+        c.gridheight = 2;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 1;
+        pane.add(label, c);
+        label.setText("placeholder");
+
+        label = createImageDisplayer();
+        c.gridx = 3;
+        pane.add(label, c);
+        label.setText("placeholder2");
+
+
+        textField = new JTextField();
+        c.gridx = 1;
+        c.gridy = 2;
+
+        c.ipady = 10;
+        c.gridwidth = 2;
+        c.gridheight = 1;
         pane.add(textField, c);
 
-        commandButton = new JButton("Do command");
-        commandButton.setFocusable(false);
-        c.ipady = 5;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.gridx = 1;
-        c.gridy = 4;
-        pane.add(commandButton, c);
+        textField.addKeyListener(new  KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
 
-        commandButton.addActionListener(this);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    String command = textField.getText();
+
+                    if(command == null || command.equals(""))
+                        return;
+
+                    textField.setText("");
+
+                    sendCommand(command);
+
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
 
         JPanel panel2 = new JPanel();
-        c.ipady = 1;
-        c.gridx = 2;
-        c.gridy = 1;
-        c.gridwidth = 1;
+        c.ipady = 0;
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridheight = 1;
+        c.gridwidth = 4;
         pane.add(panel2, c);
+
         panel2.setLayout(new GridBagLayout());
+        panel2.setBackground(Color.black);
 
         JButton button = new JButton("Front Camera");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(commandListener != null && commandListener.doCommand("frontCamera")){
-
-                }
+                sendCommand("frontCamera");
             }
         });
         button.setFocusable(false);
@@ -181,31 +200,22 @@ public class GUI implements ActionListener {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(commandListener != null && commandListener.doCommand("bottomCamera")){
-
-                }
+                sendCommand("bottomCamera");
             }
         });
         button.setFocusable(false);
-        c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 1;
         panel2.add(button, c);
 
 
 
-
-
-
-
-
         button = new JButton("Keyboard");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        button.setFocusable(true);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        panel2.add(button, c);
         button.addKeyListener(new  KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -280,12 +290,6 @@ public class GUI implements ActionListener {
                 }
             }
         });
-        button.setFocusable(true);
-        c.gridx = 2;
-        c.gridy = 3;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        pane.add(button, c);
 /*
 
 
@@ -313,28 +317,17 @@ public class GUI implements ActionListener {
         c.gridy = 2; //third row
         pane.add(button, c);
         */
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == commandButton){
-
-            String command = textField.getText();
-
-            if(command == null || command.equals(""))
-                return;
-
-            textField.setText("");
-
-            if(commandListener != null && commandListener.doCommand(command)){
-                textArea.append("\n"+command);
-
-                JScrollBar vertical = scrollPane.getVerticalScrollBar();
-                vertical.setValue( vertical.getMaximum() );
-            }
-            else{
-                textArea.append("\nCommand '"+command+"' was not executed");
-            }
+    private boolean sendCommand(String command){
+        if(commandListener != null && commandListener.doCommand(command)){
+            textArea.append("\n"+command);
+            return true;
+        }
+        else{
+            textArea.append("\nCommand '"+command+"' was not executed");
+            return false;
         }
     }
 
