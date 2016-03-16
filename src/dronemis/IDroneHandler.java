@@ -1,18 +1,34 @@
 package dronemis;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 public interface IDroneHandler {
 
     void init();
 
     void takeOff();
 
+    void land();
+
+    void moveForward();
+
+    void moveBackward();
+
+    void moveLeft();
+
+    void moveRight();
+
+    void moveUp();
+
+    void moveDown();
+
+    void turnLeft();
+
+    void turnRight();
+
     void useFrontCamera();
 
     void useBottomCamera();
 
-    void land();
+    void emergencyStop();
 
+    boolean isFlying();
 }

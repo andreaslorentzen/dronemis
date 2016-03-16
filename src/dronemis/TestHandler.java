@@ -9,7 +9,6 @@ import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class TestHandler implements IDroneHandler {
 
@@ -81,7 +80,57 @@ public class TestHandler implements IDroneHandler {
     }
 
     @Override
+    public void emergencyStop() {
+
+    }
+
+    @Override
+    public boolean isFlying() {
+        return false;
+    }
+
+    @Override
     public void land() {
+
+    }
+
+    @Override
+    public void moveForward() {
+
+    }
+
+    @Override
+    public void moveBackward() {
+
+    }
+
+    @Override
+    public void moveLeft() {
+
+    }
+
+    @Override
+    public void moveRight() {
+
+    }
+
+    @Override
+    public void moveUp() {
+
+    }
+
+    @Override
+    public void moveDown() {
+
+    }
+
+    @Override
+    public void turnLeft() {
+
+    }
+
+    @Override
+    public void turnRight() {
 
     }
 
